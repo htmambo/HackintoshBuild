@@ -21,8 +21,15 @@ class OSObject: OutBaseObject {
     var isDownloading: Bool = false
     var downloadProgress: Double = 0.0
     let catalogsArr: [String] = ["Developer", "Beta", "Public"]
-    let catalogsDict: NSDictionary = ["Developer": "https://swscan.apple.com/content/catalogs/others/index-10.15seed-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog", "Beta": "https://swscan.apple.com/content/catalogs/others/index-10.15beta-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog", "Public": "https://swscan.apple.com/content/catalogs/others/index-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog"]
-    let versionPopList: [String] = ["macOS Monterey - 12.x", "macOS Big Sur - 11.x", "macOS Catalina - 10.15", "macOS Mojave - 10.14", "macOS High Sierra - 10.13"]
+    let catalogsDict: NSDictionary = [
+        "Developer":
+            "https://swscan.apple.com/content/catalogs/others/index-12seed-12-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog",
+        "Beta":
+            "https://swscan.apple.com/content/catalogs/others/index-12beta-12-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog",
+        "Public":
+            "https://swscan.apple.com/content/catalogs/others/index-12-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog"
+    ]
+    let versionPopList: [String] = ["macOS Sequoia - 15.x", "macOS Sonoma - 14.x", "macOS Ventura - 13.x", "macOS Monterey - 12.x", "macOS Big Sur - 11.x", "macOS Catalina - 10.15", "macOS Mojave - 10.14", "macOS High Sierra - 10.13"]
     let downloadStatus: [String] = ["正在下载AppleDiagnostics.dmg", "正在下载AppleDiagnostics.chunklist", "正在下载BaseSystem.dmg", "正在下载BaseSystem.chunklist", "正在下载InstallInfo.plist", "正在下载InstallESDDmg.pkg", "正在制作镜像"]
     let downloadStatusBS: [String] = ["正在下载InstallInfo.plist", "正在下载UpdateBrain.zip", "正在下载MajorOSInfo.pkg", "正在下载Info.plist", "正在下载InstallAssistant.pkg", "正在下载BuildManifest.plist", "正在制作镜像"]
     let filemanager = FileManager.default
@@ -129,7 +136,17 @@ class OSObject: OutBaseObject {
                     } else {
                         if InstallAssistantPackageIdentifiers.allKeys.contains(where: {$0 as! String == "SharedSupport"}) {
                             let SharedSupport = InstallAssistantPackageIdentifiers["SharedSupport"] as! String
-                            if SharedSupport.contains("macOS1016") || SharedSupport.contains("macOSBigSur") || SharedSupport.contains("macOS12") || SharedSupport.contains("macOSMonterey") {
+                            if SharedSupport.contains("macOS1016") ||
+                                SharedSupport.contains("macOSBigSur") ||
+                                SharedSupport.contains("macOS12") ||
+                                SharedSupport.contains("macOS13") ||
+                                SharedSupport.contains("macOS14") ||
+                                SharedSupport.contains("macOS15") ||
+                                SharedSupport.contains("macOSMonterey") ||
+                                SharedSupport.contains("macOSVentura") ||
+                                SharedSupport.contains("macOSSonoma") ||
+                                SharedSupport.contains("macOSSequoia")
+                            {
                                 let URL: String = subPackages["URL"] as! String
                                 productsArr.append(URL)
                                 MyLog(productsArr)
@@ -138,8 +155,8 @@ class OSObject: OutBaseObject {
                                 }
                                 else {
                                     distsArr.append(Distributions["English"] as! String)
-                                    MyLog(distsArr)
                                 }
+                                MyLog(distsArr)
                             }
                         }
                     }
